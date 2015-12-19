@@ -8,7 +8,7 @@ require 'json'
 
 
 # important data
-secrets = YAML.load_file 'secrets.yml'
+secrets = YAML.load_file(File.expand_path('../secrets.yml', __FILE__))
 TARGET  = secrets['target']
 SLACK   = secrets['slack_webhook']
 
@@ -36,14 +36,14 @@ rescue OpenURI::HTTPError => error
   puts response.status
 end
 
-new_site = File.open('site.html', 'w')
+new_site = File.open(File.expand_path('../site.html', __FILE__), 'w')
 new_site << request.read
 new_site.close
 
-if File.exist?('site.old.html')
-  files_same = FileUtils.compare_file('site.old.html', 'site.html')
+if File.exist?(File.expand_path('../site.old.html', __FILE__))
+  files_same = FileUtils.compare_file(File.expand_path('../site.html', __FILE__), File.expand_path('../site.old.html', __FILE__))
   alert! unless files_same
-  File.delete('site.old.html')
+  File.delete(File.expand_path('../site.old.html', __FILE__))
 end
 
-File.rename('site.html', 'site.old.html')
+File.rename(File.expand_path('../site.html', __FILE__), File.expand_path('../site.old.html', __FILE__))
