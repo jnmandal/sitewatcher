@@ -25,7 +25,7 @@ def alert!
   uri = URI.parse(SLACK)
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
-  response = http.post(uri.path, {text: message}.to_json, {"Content-Type" => "application/json","Accept" => "application/json"})
+  response = http.post(uri.path, {text: message}.to_json, {'Content-Type' => 'application/json','Accept' => 'application/json'})
 end
 
 # basic logic to watch page
